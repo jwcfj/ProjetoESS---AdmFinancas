@@ -117,7 +117,21 @@ api.delete(
     }
   }
 );
+//USERS
 
+api.get(
+  "/api/users/:id",
+  function (req: express.Request, res: express.Response) {
+    let id:number = parseInt(req.params.id);
+    let user = usersAPI.getUserById(id);
+
+    if (!user) {
+      res.status(404).send({ failure: "Usuario não encontrado!"});
+    }
+
+    res.send(user);
+  }
+);
 api.get(
   "/api/users/",
   function (req: express.Request, res: express.Response) {
@@ -129,14 +143,45 @@ api.put(
   "/api/users/",
   function (req: express.Request, res: express.Response) {
     let newUsr: Users = <Users>req.body;
-    const result = expensesAPI.updateExpenses(newExp);
+  
+    const result = usersAPI.updateUser(newUsr);
     if (result) {
-      res.send({ success: "O gasto fixo foi atualizado!", result });
+      res.send({ success: "O usuario foi atualizado!"});
     } else {
-      res.send({ failure: "O gasto fixo não foi atualizado!", result });
+      res.status(404).send({ failure: "Usuario não encontrado!"});
     }
   }
 );
+
+
+api.post(
+  "/api/users/",
+  function (req: express.Request, res: express.Response) {
+    let newUsr: Users = <Users>req.body;
+  
+    const result = usersAPI.rergisterUser(newUsr);
+    
+
+    if (result) {
+      res.send({ success: "Usuário cadastrado!" });
+    } else {
+      res.status(409).send({ failure: "O usuário não foi cadastrado, pois já existe um usuário cadastrado com esse cpf!" });
+    }
+  }
+);
+
+api.delete(
+  "/api/users/",
+  function (req: express.Request, res: express.Response) {
+    let delUsrId: number = <number>req.body.id;
+    if (usersAPI.delete(delUsrId)) {
+      res.send({ success: "O usuario foi removido com sucesso" });
+    } else {
+      res.send({ failure: "O usuario não foi removido" });
+    }
+  }
+);
+
 
 //Exportando servidor
 var server = api.listen(3000, function () {
