@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Editar Usuário</h1>
+<div mat-dialog-content>
+    <p>Qual é o novo nome?</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input matInput [(ngModel)]="data.name">
+    </mat-form-field>
+    <p>Qual é a nova idade?</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Idade</mat-label>
+        <input matInput [(ngModel)]="data.idade">
+    </mat-form-field>
+    <p>Qual é o novo e-mail?</p>
+    <mat-form-field appearance="fill">
+        <mat-label>E-mail</mat-label>
+        <input
+          [(ngModel)]="data.email"
+          type="email"
+          matInput
+          placeholder="email@email.com"
+        />
+        <input matInput [(ngModel)]="data.email">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="not">Cancelar</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Editar</button>
+</div>
