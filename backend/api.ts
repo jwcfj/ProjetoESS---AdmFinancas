@@ -9,11 +9,16 @@ import { ExpensesAPI } from "./expenses/expenses-api";
 import { SourcesIncomeTable } from "../common/sources-income";
 import { SourcesIncomeAPI } from "./sources-income/sources-income-api";
 
+import { Users } from "../common/users";
+import { UsersAPI } from "./users/users-api";
+
 var api = express();
 
 var expensesAPI: ExpensesAPI = new ExpensesAPI();
 
 var sourcesIncomeAPI: SourcesIncomeAPI = new SourcesIncomeAPI();
+
+var usersAPI: UsersAPI = new UsersAPI();
 
 var allowCrossDomain = function (req: any, res: any, next: any) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -109,6 +114,26 @@ api.delete(
       res.send({ success: "A fonte de renda foi removida com sucesso" });
     } else {
       res.send({ failure: "A fonte de renda não foi removida" });
+    }
+  }
+);
+
+api.get(
+  "/api/users/",
+  function (req: express.Request, res: express.Response) {
+    res.send(usersAPI.getUsers());
+  }
+);
+
+api.put(
+  "/api/users/",
+  function (req: express.Request, res: express.Response) {
+    let newUsr: Users = <Users>req.body;
+    const result = expensesAPI.updateExpenses(newExp);
+    if (result) {
+      res.send({ success: "O gasto fixo foi atualizado!", result });
+    } else {
+      res.send({ failure: "O gasto fixo não foi atualizado!", result });
     }
   }
 );
